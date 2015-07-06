@@ -1,0 +1,21 @@
+{
+    "name": "troiswa/shop",
+    "description": "an e-commerce solution",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hugo Vinchon",
+            "email": "hugo@example.com"
+        }
+    ],
+     "autoload": {
+        "psr-4": {
+            "TroisWA\\Shop\\": "src"
+        }
+    },
+    "require": {
+
+        "twig/twig" : "^1.18",
+        "symfony/http-foundation": "^2.7"
+    }
+}
