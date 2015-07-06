@@ -13,44 +13,26 @@ namespace TroisWA\Shop\Model;
  * @package TroisWA\Shop\Model
  */
 class Product {
-    private $picture;
+    private $id;
     private $name;
-    private $price;
     private $description;
+    private $price;
     private $rating;
+    private $picture;
 
 
-    /**
-     * @param $picture string
-     * @param $name string
-     * @param $price float
-     * @param $description string
-     * @param $rating int
-     */
-    function __construct($picture, $name, $price, $description, $rating)
-    {
-        $this->picture = $picture;
-        $this->name = $name;
-        $this->price = $price;
-        $this->description = $description;
-        $this->rating = $rating;
-    }
 
-    /**
-     * @return mixed
-     */
-    public function getPicture()
-    {
-        return $this->picture;
-    }
+//
+//    function __construct($id, $name, $description, $price, $rating, $picture)
+//    {
+//        $this->id = $id;
+//        $this->name = $name;
+//        $this->description = $description;
+//        $this->price = $price;
+//        $this->rating = $rating;
+//        $this->picture = $picture;
+//    }
 
-    /**
-     * @param mixed $picture
-     */
-    public function setPicture($picture)
-    {
-        $this->picture = $picture;
-    }
 
     /**
      * @return mixed
@@ -114,6 +96,10 @@ class Product {
     public function setRating($rating)
     {
         $this->rating = $rating;
+    }
+
+    public function pictureUrl($size){
+        return "img/product/$size/$this->id.jpg";
     }
 
 
