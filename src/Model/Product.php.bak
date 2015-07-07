@@ -1,76 +1,38 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: wap60
+ * Date: 06/07/15
+ * Time: 10:51
+ */
 
 namespace TroisWA\Shop\Model;
 
 /**
-* @Entity @Table(name="product")
-**/
-class Product
-{
-    /**
-     * @var int
-     * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
-     */
+ * Class Product
+ * @package TroisWA\Shop\Model
+ */
+class Product {
     private $id;
-
-    /**
-     * @var string
-     * @Column(type="string")
-     */
     private $name;
-
-    /**
-     * @var float
-     * @Column(type="float")
-     */
-    private $price;
-
-    /**
-     * @var string
-     * @Column(type="string")
-     */
     private $description;
-
-    /**
-     * @var int
-     * @Column(type="integer")
-     */
+    private $price;
     private $rating;
+    private $picture;
 
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
 
-    /**
-     * Product constructor.
-     * @param $picture
-     * @param $name
-     * @param $price
-     * @param $description
-     * @param $rating
-     */
-    /* public function __construct($picture, $name, $price, $description, $rating)
-    {
-    $this->picture = $picture;
-    $this->name = $name;
-    $this->price = $price;
-    $this->description = $description;
-    $this->rating = $rating;
-    }*/
+//
+//    function __construct($id, $name, $description, $price, $rating, $picture)
+//    {
+//        $this->id = $id;
+//        $this->name = $name;
+//        $this->description = $description;
+//        $this->price = $price;
+//        $this->rating = $rating;
+//        $this->picture = $picture;
+//    }
+
 
     /**
      * @return mixed
@@ -136,8 +98,11 @@ class Product
         $this->rating = $rating;
     }
 
-    public function pictureUrl($size)
-    {
+    public function pictureUrl($size){
         return "img/product/$size/$this->id.jpg";
     }
+
+
+
+
 }

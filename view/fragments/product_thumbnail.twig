@@ -1,6 +1,6 @@
 <div class="col-sm-4 col-lg-4 col-md-4">
     <div class="thumbnail">
-        <img src="{{product.pictureUrl("320x150")}}" alt="">
+        <img src="{{image_or_default("320x150", product)}}" alt="">
         <div class="caption">
             <h4 class="pull-right">{{ "%01.2f$"|format(product.price) }}</h4>
             <h4><a href="#">{{ product.name[:20] ~ '...' }}</a>
