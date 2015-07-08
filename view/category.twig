@@ -1,0 +1,14 @@
+{% extends "layout.twig" %}
+{% block content %}
+
+    <div class="row">
+        <h1>{{ category.name }}</h1>
+        <hr/>
+        {% for product in product_thumbnails %}
+            {% include "fragments/product_thumbnail.twig" %}
+        {% endfor %}
+
+
+
+    </div>
+{% endblock %}

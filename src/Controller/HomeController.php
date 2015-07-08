@@ -3,7 +3,6 @@
 namespace TroisWA\Shop\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use TroisWA\Shop\Model\Product;
 
 class HomeController{
 
@@ -25,7 +24,7 @@ class HomeController{
 
     public function indexAction(){
 		return $this->view->render("index.twig",
-            ["product_thumbnails" => $this->getProducts(5),
+            ["product_thumbnails" => $this->getProducts(10),
             "carousel_products" => $this->getProducts(3)]);
 	}
 
