@@ -1,7 +1,7 @@
 <?php 
 
 require_once __DIR__ . "/../vendor/autoload.php";
-require_once __DIR__ . "/../db/doctrine.php";
+
 
 $loader = new Twig_Loader_Filesystem(__DIR__."/../view");
 $twig = new Twig_Environment($loader, 
@@ -28,7 +28,7 @@ use Symfony\Component\HttpFoundation\Request;
 $request = Request::createFromGlobals();
 
 
-$controller = new \TroisWA\Shop\Controller\HomeController($request, $twig, $entityManager);
+$controller = new \TroisWA\Shop\Controller\HomeController($request, $twig, $connection);
 
 echo $controller->indexAction();
 
