@@ -14,6 +14,7 @@ class CategoryController {
     private $request;
     private $view;
     private $connection;
+    private $cat;
 
 
     /**
@@ -21,16 +22,25 @@ class CategoryController {
      * @param $view \Twig_Environment
      * @param $connection \PDO
      */
-    public function __construct($request, $view, $connection){
+    public function __construct($request, $view, $connection, $cat){
         $this->request = $request;
         $this->view = $view;
         $this->connection = $connection;
+        $this->cat = $cat;
     }
 
     public function categoryAction(){
+        $cat = $this->request->get('cat');
+        $category = $this->getCategory($cat);
+        $products = $this->getProducts($cat);
+        if (is_null($category)) {
+            header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+            return $this->view->render("404.twig");
+        }
         return $this->view->render("category.twig",
-            ["category" => $this->getCategory($this->request->get('cat')),
-                "product_thumbnails" => $this->getProducts($this->request->get('cat'))]);
+            ["category" => $this->getCategory($cat),
+                "product_thumbnails" => $this->getProducts($cat),
+                "categories" => $this->cat->getCategories()]);
     }
 
     private function getProducts($cat)
@@ -39,11 +49,13 @@ class CategoryController {
         $sql = "SELECT * FROM `product` WHERE `category_id` = :cat";
 
         $requete = $this->connection->prepare($sql);
-        // $requete->bindValue(":number", $number);
         $requete->bindValue(':cat',  $cat);
         $requete->execute();
         $products = $requete->fetchAll(\PDO::FETCH_CLASS, "TroisWA\\Shop\\Model\\Product");
 
+        if(empty($products)){
+            return null;
+        }
         return $products;
 
 
