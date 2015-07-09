@@ -11,25 +11,10 @@ namespace TroisWA\Shop\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class ProductController{
-
-    private $request;
-    private $view;
-    private $connection;
-    private $cat;
+class ProductController extends AbstractController{
 
 
-    /**
-     * @param $request Request
-     * @param $view \Twig_Environment
-     * @param $connection \PDO
-     */
-    public function __construct($request, $view, $connection, $cat){
-        $this->request = $request;
-        $this->view = $view;
-        $this->connection = $connection;
-        $this->cat = $cat;
-    }
+
 
     public function showAction(){
         $id = $this->request->get('id');
@@ -40,7 +25,8 @@ class ProductController{
         }
         return $this->view->render("product/show.twig",
             ["product" => $product,
-            "categories" => $this->cat->getCategories()]);
+            "categories" => $this->getCategories(),
+            "category" => $this->getCategory($id)]);
     }
 
     private function getProduct($id)
@@ -60,6 +46,29 @@ class ProductController{
             return null;
         }
         return $product;
+
+    }
+
+
+    private function getCategory($id){
+
+
+        $sql = "SELECT `category`.* FROM `category`
+                INNER JOIN `product`
+                ON `category`.`id` = `product`. `category_id`
+                WHERE `product`.`id` = :id";
+
+        $requete = $this->connection->prepare($sql);
+        $requete->bindValue(':id', $id);
+        $requete->execute();
+
+        $requete->setFetchMode(\PDO::FETCH_CLASS, "TroisWA\\Shop\\Model\\Category");
+        $category = $requete->fetch();
+
+        if(!$category){
+            return null;
+        }
+        return $category;
 
     }
 

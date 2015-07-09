@@ -74,8 +74,12 @@
             <p class="lead">Categories</p>
             <div class="list-group">
 
-                {% for category in categories %}
-                    <a href="index.php?page=category&cat={{ category.id }}" class="list-group-item">{{ category.name }}</a>
+                {% for cat in categories %}
+                    <a href="index.php?page=category&cat={{ cat.id }}"
+                       class="list-group-item
+                       {% if category.id == cat.id %} active
+                       {% endif %}
+                       ">{{ cat.name }}</a>
                 {% endfor %}
 
             </div>

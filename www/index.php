@@ -33,25 +33,18 @@ $connection = new PDO($dataSource, $login, $mdp);
 $request = new TroisWA\Shop\Utils\Request($_GET);
 
 
-//$controller = new \TroisWA\Shop\Controller\HomeController($request, $twig, $connection);
-//
-//echo $controller->indexAction();
-
-$cat = new \TroisWA\Shop\Controller\CategoriesController($connection);
-
-
 $page = $request->get("page", "index");
 switch ($page) {
     case "index":
-        $controller = new \TroisWA\Shop\Controller\HomeController($request, $twig, $connection, $cat);
+        $controller = new \TroisWA\Shop\Controller\HomeController($request, $twig, $connection);
         echo $controller->indexAction();
         break;
     case "product":
-        $controller = new \TroisWA\Shop\Controller\ProductController($request, $twig, $connection, $cat);
+        $controller = new \TroisWA\Shop\Controller\ProductController($request, $twig, $connection);
         echo $controller->showAction();
         break;
     case "category":
-        $controller = new \TroisWA\Shop\Controller\CategoryController($request, $twig, $connection, $cat);
+        $controller = new \TroisWA\Shop\Controller\CategoryController($request, $twig, $connection);
         echo $controller->categoryAction();
         break;
     default:

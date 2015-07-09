@@ -9,25 +9,9 @@
 namespace TroisWA\Shop\Controller;
 
 
-class CategoryController {
-
-    private $request;
-    private $view;
-    private $connection;
-    private $cat;
+class CategoryController extends AbstractController {
 
 
-    /**
-     * @param $request \TroisWA\Shop\Utils\Request
-     * @param $view \Twig_Environment
-     * @param $connection \PDO
-     */
-    public function __construct($request, $view, $connection, $cat){
-        $this->request = $request;
-        $this->view = $view;
-        $this->connection = $connection;
-        $this->cat = $cat;
-    }
 
     public function categoryAction(){
         $cat = $this->request->get('cat');
@@ -38,9 +22,9 @@ class CategoryController {
             return $this->view->render("404.twig");
         }
         return $this->view->render("category.twig",
-            ["category" => $this->getCategory($cat),
-                "product_thumbnails" => $this->getProducts($cat),
-                "categories" => $this->cat->getCategories()]);
+            [   "category" => $this->getCategory($cat),
+                "product_thumbnails" => $products,
+                "categories" => $this->getCategories()]);
     }
 
     private function getProducts($cat)

@@ -2,22 +2,29 @@
 /**
  * Created by PhpStorm.
  * User: wap60
- * Date: 08/07/15
- * Time: 17:23
+ * Date: 09/07/15
+ * Time: 12:13
  */
 
 namespace TroisWA\Shop\Controller;
 
 
-class CategoriesController {
+abstract class AbstractController {
+    protected $request;
+    protected $view;
+    protected $connection;
 
-    private $connection;
-
-    function __construct($connection)
+    /**
+     * @param $request \TroisWA\Shop\Utils\Request
+     * @param $view \Twig_Environment
+     * @param $connection \PDO
+     */
+    function __construct($request, $view, $connection)
     {
+        $this->request = $request;
+        $this->view = $view;
         $this->connection = $connection;
     }
-
 
     public function getCategories(){
         $sql = "SELECT * FROM `category`";
@@ -28,4 +35,5 @@ class CategoriesController {
         $categories = $requete->fetchAll(\PDO::FETCH_CLASS, "TroisWA\\Shop\\Model\\Category");
         return $categories;
     }
+
 }
