@@ -1,0 +1,15 @@
+
+{% extends "layout.twig" %}
+{% block content %}
+
+    {% if errors is empty %}
+        <h1>user inserted successfully</h1>
+    {% else %}
+        <h1>Error !</h1>
+        {% for error in errors %}
+        <p>{{ error }}</p>
+        {% endfor %}
+    {% endif %}
+
+
+{% endblock %}

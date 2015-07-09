@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 08, 2015 at 05:42 PM
+-- Generation Time: Jul 09, 2015 at 05:53 PM
 -- Server version: 5.5.43-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.9
 
@@ -74,6 +74,29 @@ INSERT INTO `product` (`id`, `name`, `description`, `price`, `rating`, `picture`
 (8, 'Kingly Scintillating Bracer of Earth Rains', 'lorem ipsum dolor...', 13.75, 4, 'pic8.jpg', 2),
 (9, 'Krakens'' Knife of Insane Hearers', 'lorem ipsum dolor...', 19.5, 0, 'pic9.jpg', 1),
 (10, 'Ointment of the Insect', 'lorem ipsum dolor...', 45.5, 5, 'pic10.jpg', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mail` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `mail` (`mail`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `mail`, `password`) VALUES
+(1, 'momo@momo.fr', 'momo'),
+(2, 'toto@toto.fr', 'toto'),
+(3, 'test', 'test');
 
 --
 -- Constraints for dumped tables

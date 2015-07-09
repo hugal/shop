@@ -30,7 +30,7 @@ $connection = new PDO($dataSource, $login, $mdp);
 //$request = Request::createFromGlobals();
 
 //pour utiliser le request de la classe request
-$request = new TroisWA\Shop\Utils\Request($_GET);
+$request = new TroisWA\Shop\Utils\Request($_GET, $_POST);
 
 
 $page = $request->get("page", "index");
@@ -45,9 +45,18 @@ switch ($page) {
         break;
     case "category":
         $controller = new \TroisWA\Shop\Controller\CategoryController($request, $twig, $connection);
-        echo $controller->categoryAction();
+        echo $controller->showAction();
+        break;
+    case "signup":
+        $controller = new \TroisWA\Shop\Controller\UserController($request, $twig, $connection);
+        echo $controller->signupAction();
+        break;
+    case "signup_form":
+        $controller = new \TroisWA\Shop\Controller\UserController($request, $twig, $connection);
+        echo $controller->signupFormAction();
         break;
     default:
+        header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
         echo $twig->render("404.twig");
 
 }

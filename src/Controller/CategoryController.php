@@ -13,7 +13,7 @@ class CategoryController extends AbstractController {
 
 
 
-    public function categoryAction(){
+    public function showAction(){
         $cat = $this->request->get('cat');
         $category = $this->getCategory($cat);
         $products = $this->getProducts($cat);
@@ -21,7 +21,7 @@ class CategoryController extends AbstractController {
             header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
             return $this->view->render("404.twig");
         }
-        return $this->view->render("category.twig",
+        return $this->view->render("category/show.twig",
             [   "category" => $this->getCategory($cat),
                 "product_thumbnails" => $products,
                 "categories" => $this->getCategories()]);
