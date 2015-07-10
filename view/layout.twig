@@ -18,7 +18,6 @@
     <link href="css/shop-homepage.css" rel="stylesheet">
     <link href="css/shop-item.css" rel="stylesheet">
     {% block css %}
-
     {% endblock %}
 
 
@@ -56,7 +55,10 @@
                     <a href="#">Services</a>
                 </li>
                 <li>
-                    <a href="?page=signup_form">Signup</a>
+                    <a href="?page=signin">Sign in</a>
+                </li>
+                <li>
+                    <a href="?page=signup_form">Sign up</a>
                 </li>
                 <li>
                     <a href="#">Contact</a>
@@ -125,6 +127,7 @@
 
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
+{% block scripts %}{% endblock %}
 
 </body>
 

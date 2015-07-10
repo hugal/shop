@@ -58,8 +58,48 @@ class UserController extends AbstractController{
 
     }
 
+    public function signinAction(){
+        $mail = $this->request->post('email');
+        $password = $this->request->post('password');
+        var_dump($mail);
+        var_dump($password);
+
+        if (!empty($mail) && !empty($password)) {
+            var_dump("flag");
+            $user = $this->getUserFromMail($mail);
+            var_dump($user);
+            var_dump($user->verifyPassword($password));
+            if ($user != null && $user->verifyPassword($password)) {
+                $_SESSION['login'] = $mail;
+                header("Location: index.php");
+                die();
+            } else {
+                $this->errors[] = "login failed";
+            }
+
+        } else {
+            $this->errors[] = "one or more empty field(s)";
+        }
+
+
+
+        return $this->view->render("user/signin.twig",
+            [ "categories" => $this->getCategories(),
+                "errors" => $this->errors ]);
+    }
+
+    public function signoutAction(){
+        session_destroy();
+        header("Location: index.php");
+        die();
+    }
+
     private function getUsers(){
         return $this->dataSource->getUsers();
+    }
+
+    private function getUserFromMail($mail){
+        return $this->dataSource->getUserFromMail($mail);
     }
 
     private function buildUser($mail, $password)

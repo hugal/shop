@@ -110,6 +110,28 @@ class DataSource {
         return $users;
     }
 
+
+    /**
+     * @param $mail string
+     * @return \TroisWA\Shop\Model\User
+     */
+    public function getUserFromMail($mail){
+
+        $sql = "SELECT * FROM `user` WHERE `mail` = :mail";
+
+        $requete = $this->connection->prepare($sql);
+        $requete->bindValue(':mail',  $mail);
+        $requete->execute();
+
+        $requete->setFetchMode(\PDO::FETCH_CLASS, "TroisWA\\Shop\\Model\\User");
+        $product = $requete->fetch();
+
+        if(!$product){
+            return null;
+        }
+        return $product;
+    }
+
     /**
      * @param $user \TroisWA\Shop\Model\User
      * @return boolean

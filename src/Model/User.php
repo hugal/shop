@@ -63,4 +63,12 @@ class User {
         $this->password = $password;
     }
 
+    /**
+     * @param $password string
+     * @return bool
+     */
+    public function verifyPassword($password){
+        return password_verify($password, $this->password);
+    }
+
 }
