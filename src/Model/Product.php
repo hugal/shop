@@ -39,6 +39,10 @@ class Product
      */
     private $rating;
 
+    private $picture;
+
+    private $category_id;
+
     /**
      * @return mixed
      */
@@ -55,22 +59,6 @@ class Product
         $this->id = $id;
     }
 
-    /**
-     * Product constructor.
-     * @param $picture
-     * @param $name
-     * @param $price
-     * @param $description
-     * @param $rating
-     */
-    /* public function __construct($picture, $name, $price, $description, $rating)
-    {
-    $this->picture = $picture;
-    $this->name = $name;
-    $this->price = $price;
-    $this->description = $description;
-    $this->rating = $rating;
-    }*/
 
     /**
      * @return mixed
@@ -140,4 +128,23 @@ class Product
     {
         return "img/product/$size/$this->id.jpg";
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCategoryId()
+    {
+        return $this->category_id;
+    }
+
+    /**
+     * @param mixed $category_id
+     */
+    public function setCategoryId($category_id)
+    {
+        $this->category_id = $category_id;
+    }
+
+
+
 }

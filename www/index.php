@@ -32,31 +32,35 @@ $connection = new PDO($dataSource, $login, $mdp);
 //pour utiliser le request de la classe request
 $request = new TroisWA\Shop\Utils\Request($_GET, $_POST);
 
+$dataSource = new \TroisWA\Shop\DAO\DataSource($connection);
+
+
+
 
 $page = $request->get("page", "index");
 switch ($page) {
     case "index":
-        $controller = new \TroisWA\Shop\Controller\HomeController($request, $twig, $connection);
+        $controller = new \TroisWA\Shop\Controller\HomeController($request, $twig, $dataSource);
         echo $controller->indexAction();
         break;
     case "product":
-        $controller = new \TroisWA\Shop\Controller\ProductController($request, $twig, $connection);
+        $controller = new \TroisWA\Shop\Controller\ProductController($request, $twig, $dataSource);
         echo $controller->showAction();
         break;
     case "category":
-        $controller = new \TroisWA\Shop\Controller\CategoryController($request, $twig, $connection);
+        $controller = new \TroisWA\Shop\Controller\CategoryController($request, $twig, $dataSource);
         echo $controller->showAction();
         break;
     case "signup":
-        $controller = new \TroisWA\Shop\Controller\UserController($request, $twig, $connection);
+        $controller = new \TroisWA\Shop\Controller\UserController($request, $twig, $dataSource);
         echo $controller->signupAction();
         break;
     case "signup_form":
-        $controller = new \TroisWA\Shop\Controller\UserController($request, $twig, $connection);
+        $controller = new \TroisWA\Shop\Controller\UserController($request, $twig, $dataSource);
         echo $controller->signupFormAction();
         break;
     default:
         header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
-        echo $twig->render("404.twig");
+        echo $twig->render("404.twig", ["categories" => $dataSource->getCategories()]);
 
 }

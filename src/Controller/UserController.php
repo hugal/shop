@@ -24,9 +24,15 @@ class UserController extends AbstractController{
 
     public function signupAction(){
 
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed");
+            return $this->view->render("405.twig", ["categories" => $this->getCategories()]);
+        }
+
         $mail = $this->request->post('email');
         $password = $this->request->post('password');
         $password_confirm = $this->request->post('password_confirm');
+
         if (empty($mail) || empty($password) || empty($password_confirm)) {
             $this->errors[] = "one or more empty field(s)";
         }
@@ -35,27 +41,16 @@ class UserController extends AbstractController{
             $this->errors[] = "mail is invalid";
         }
 
-
         if ($password !== $password_confirm) {
             $this->errors[] = "passwords don't match";
         }
 
         if (empty($this->errors)) {
-            $user = new User();
-            $user->setMail($mail);
-            $user->setPassword($password);
-            $sql = "INSERT INTO  `shop`.`user` (`mail` ,`password`)
-                    VALUES (:mail, :password )";
-            $requete = $this->connection->prepare($sql);
-            $requete->bindValue(':mail', $mail);
-            $requete->bindValue(':password', $password);
-            if (!$requete->execute()) {
-                $this->errors[] = "mail already in database";
+            $user = $this->buildUser($mail, $password);
+            if (!$this->addUser($user)) {
+                $this->errors[] = "mail already exists in database";
             }
-
         }
-
-        var_dump($this->errors);
 
         return $this->view->render("user/signup.twig",
             [ "categories" => $this->getCategories(),
@@ -63,36 +58,20 @@ class UserController extends AbstractController{
 
     }
 
-    public function getUsers(){
-        $sql = "SELECT * FROM `user`";
-
-        $requete = $this->connection->prepare($sql);
-
-        $requete->execute();
-        $users = $requete->fetchAll(\PDO::FETCH_CLASS, "TroisWA\\Shop\\Model\\User");
-        return $users;
+    private function getUsers(){
+        return $this->dataSource->getUsers();
     }
 
-    public function getMails(){
-        $sql = "SELECT `mail` FROM `user`";
-
-        $requete = $this->connection->prepare($sql);
-
-        $requete->execute();
-        $users = $requete->fetchColumn();
-        return $users;
-
-
-
-
-        //voir le nombre de requetes retournees par pdo last insterted id
-
-
-
+    private function buildUser($mail, $password)
+    {
+        $user = new User();
+        $user->setMail($mail);
+        $user->setPassword($password);
+        return $user;
     }
 
-    public function addUser(){
-
+    private function addUser($user){
+        return $this->dataSource->addUser($user);
     }
 
 }

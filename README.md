@@ -1,4 +1,3 @@
 # shop
-playing with twig
 
-
+a simple online store made as a school project

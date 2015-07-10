@@ -59,6 +59,7 @@ class User {
      */
     public function setPassword($password)
     {
+        $password = password_hash($password, PASSWORD_BCRYPT);
         $this->password = $password;
     }
 

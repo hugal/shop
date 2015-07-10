@@ -12,28 +12,26 @@ namespace TroisWA\Shop\Controller;
 abstract class AbstractController {
     protected $request;
     protected $view;
-    protected $connection;
+
+    /**
+     * @var  \TroisWA\Shop\DAO\DataSource
+     */
+    protected $dataSource;
 
     /**
      * @param $request \TroisWA\Shop\Utils\Request
      * @param $view \Twig_Environment
-     * @param $connection \PDO
+     * @param $dataSource \TroisWA\Shop\DAO\DataSource
      */
-    function __construct($request, $view, $connection)
+    function __construct($request, $view, $dataSource)
     {
         $this->request = $request;
         $this->view = $view;
-        $this->connection = $connection;
+        $this->dataSource = $dataSource;
     }
 
     public function getCategories(){
-        $sql = "SELECT * FROM `category`";
-
-        $requete = $this->connection->prepare($sql);
-
-        $requete->execute();
-        $categories = $requete->fetchAll(\PDO::FETCH_CLASS, "TroisWA\\Shop\\Model\\Category");
-        return $categories;
+        return $this->dataSource->getCategories();
     }
 
 }

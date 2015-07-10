@@ -4,13 +4,11 @@
     <div class="row">
         <h1>{{ category.name }}</h1>
         <hr/>
-        {% if product_thumbnails is not null %}
-            {% for product in product_thumbnails %}
-                {% include "fragments/product_thumbnail.twig" %}
-            {% endfor %}
+        {% for product in product_thumbnails %}
+            {% include "fragments/product_thumbnail.twig" %}
         {% else %}
             <p>This category doesn't contain any product.</p>
-        {% endif %}
+        {% endfor %}
 
     </div>
 {% endblock %}

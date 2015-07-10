@@ -16,7 +16,7 @@ class CategoryController extends AbstractController {
     public function showAction(){
         $cat = $this->request->get('cat');
         $category = $this->getCategory($cat);
-        $products = $this->getProducts($cat);
+        $products = $this->getProductsByCat($cat);
         if (is_null($category)) {
             header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
             return $this->view->render("404.twig");
@@ -27,40 +27,17 @@ class CategoryController extends AbstractController {
                 "categories" => $this->getCategories()]);
     }
 
-    private function getProducts($cat)
+    private function getProductsByCat($cat)
     {
-
-        $sql = "SELECT * FROM `product` WHERE `category_id` = :cat";
-
-        $requete = $this->connection->prepare($sql);
-        $requete->bindValue(':cat',  $cat);
-        $requete->execute();
-        $products = $requete->fetchAll(\PDO::FETCH_CLASS, "TroisWA\\Shop\\Model\\Product");
-
-        if(empty($products)){
-            return null;
-        }
-        return $products;
-
+        return $this->dataSource->getProductsByCat($cat);
 
     }
 
     private function getCategory($cat){
 
 
-        $sql = "SELECT * FROM `category` WHERE `id` = :cat";
 
-        $requete = $this->connection->prepare($sql);
-        $requete->bindValue(':cat',  $cat);
-        $requete->execute();
-
-        $requete->setFetchMode(\PDO::FETCH_CLASS, "TroisWA\\Shop\\Model\\Category");
-        $category = $requete->fetch(\PDO::FETCH_CLASS);
-
-        if(!$category){
-            return null;
-        }
-        return $category;
+        return $this->dataSource->getCategory($cat);
 
     }
 
