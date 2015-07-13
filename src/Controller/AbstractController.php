@@ -9,6 +9,10 @@
 namespace TroisWA\Shop\Controller;
 
 
+use TroisWA\Shop\DAO\DataSource;
+use TroisWA\Shop\Utils\FlashManager;
+use TroisWA\Shop\Utils\Request;
+
 abstract class AbstractController {
     protected $request;
     protected $view;
@@ -18,16 +22,20 @@ abstract class AbstractController {
      */
     protected $dataSource;
 
+    protected $flash;
+
     /**
-     * @param $request \TroisWA\Shop\Utils\Request
+     * @param $request Request
      * @param $view \Twig_Environment
-     * @param $dataSource \TroisWA\Shop\DAO\DataSource
+     * @param $dataSource DataSource
+     * @param $flash FlashManager
      */
-    function __construct($request, $view, $dataSource)
+    function __construct($request, $view, $dataSource, $flash)
     {
         $this->request = $request;
         $this->view = $view;
         $this->dataSource = $dataSource;
+        $this->flash = $flash;
     }
 
     public function getCategories(){

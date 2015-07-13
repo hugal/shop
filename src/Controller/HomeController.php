@@ -6,10 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class HomeController extends AbstractController{
 
-
-
-
-
     public function indexAction(){
 
 		return $this->view->render("index.twig",
@@ -20,17 +16,6 @@ class HomeController extends AbstractController{
 
     private function getAllProducts($limit)
     {
-
        return $this->dataSource->getAllProducts($limit);
-
-
     }
-
-
-
-
-
-
-
-
 }

@@ -4,9 +4,13 @@
     <form id="signin" class="form-horizontal" action='?page=signin' method="POST">
         <fieldset>
             <div id="legend">
-                <legend class="">Please Log In</legend>
+                <legend class="">Please Sign In</legend>
             </div>
 
+
+            {% for error in errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
 
             <div class="control-group">
                 <!-- E-mail -->
@@ -29,7 +33,7 @@
             <div class="control-group">
                 <!-- Button -->
                 <div class="controls">
-                    <button class="btn btn-success">Register</button>
+                    <button class="btn btn-success">Sign In</button>
                 </div>
             </div>
         </fieldset>

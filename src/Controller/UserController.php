@@ -51,7 +51,6 @@ class UserController extends AbstractController{
                 $this->errors[] = "mail already exists in database";
             }
         }
-
         return $this->view->render("user/signup.twig",
             [ "categories" => $this->getCategories(),
                 "errors" => $this->errors ]);
@@ -61,16 +60,21 @@ class UserController extends AbstractController{
     public function signinAction(){
         $mail = $this->request->post('email');
         $password = $this->request->post('password');
-        var_dump($mail);
-        var_dump($password);
+
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed");
+            return $this->view->render("405.twig", ["categories" => $this->getCategories()]);
+        }
 
         if (!empty($mail) && !empty($password)) {
-            var_dump("flag");
+
             $user = $this->getUserFromMail($mail);
-            var_dump($user);
-            var_dump($user->verifyPassword($password));
+
+
             if ($user != null && $user->verifyPassword($password)) {
+
                 $_SESSION['login'] = $mail;
+                $this->flash->add("success", "login successful !");
                 header("Location: index.php");
                 die();
             } else {
@@ -82,10 +86,14 @@ class UserController extends AbstractController{
         }
 
 
+        $this->flash->add("warning",$this->errors);
+        header("Location: index.php");
+        die();
 
-        return $this->view->render("user/signin.twig",
-            [ "categories" => $this->getCategories(),
-                "errors" => $this->errors ]);
+
+        //return $this->view->render("user/signin.twig",
+         //   [ "categories" => $this->getCategories(),
+           //     "errors" => $this->errors ]);
     }
 
     public function signoutAction(){

@@ -54,3 +54,11 @@ footer {
     margin: 50px 0;
 }
 
+.dropdown-menu{
+    padding: 15px;
+    padding-bottom: 0;
+}
+
+form#signin input{
+    margin-bottom: 15px;
+}

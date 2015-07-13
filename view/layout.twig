@@ -15,8 +15,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/shop-homepage.css" rel="stylesheet">
-    <link href="css/shop-item.css" rel="stylesheet">
+    <link href="css/shop.css" rel="stylesheet">
     {% block css %}
     {% endblock %}
 
@@ -54,15 +53,44 @@
                 <li>
                     <a href="#">Services</a>
                 </li>
-                <li>
-                    <a href="?page=signin">Sign in</a>
-                </li>
-                <li>
-                    <a href="?page=signup_form">Sign up</a>
-                </li>
+
                 <li>
                     <a href="#">Contact</a>
                 </li>
+
+            </ul>
+
+            <ul class="navbar-nav nav pull-right">
+
+
+
+
+                {% if session.login %}
+
+                    <li>
+                        <a href="index.php">{{ session.login }}</a>
+                    </li>
+
+
+                <li>
+                    <a href="index.php?page=signout">sign out</a>
+                </li>
+
+                {% else %}
+                    <li><a href="?page=signup_form">Sign Up</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
+                        <div class="dropdown-menu pull-right">
+                            <form method="POST" action="?page=signin" id="signin" accept-charset="UTF-8">
+                                <input type="email" placeholder="E-mail" id="email_signin" name="email" required>
+                                <input type="password" placeholder="Password" id="password_signin" name="password" required>
+                                <input class="btn btn-primary btn-block" type="submit" id="sign-in" value="Sign In">
+                            </form>
+                        </div>
+                    </li>
+
+                {% endif %}
+
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -75,10 +103,7 @@
 
     <div class="row">
 
-
-
         <div class="col-md-3">
-
 
             <p class="lead">Categories</p>
             <div class="list-group">
@@ -95,8 +120,22 @@
         </div>
 
         <div class="col-md-9">
-            {% block content %}
+            {% if flash.read("warning","") %}
+                {% for message in flash.read("warning","")  %}
+            <div class="alert alert-warning">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>Warning!</strong> {{ message }}
+            </div>
+                {% endfor %}
+            {% endif %}
+            {% if flash.read("success","") %}
+                <div class="alert alert-success">
+                    <a href="#" class="close" data-dismiss="alert">&times;</a>
+                    <strong>Success!</strong> {{ flash.read("success","") }}
+                </div>
+            {% endif %}
 
+            {% block content %}
             {% endblock %}
         </div>
 
@@ -128,6 +167,12 @@
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
 {% block scripts %}{% endblock %}
+{#<script>$(document).ready(function(){#}
+        {#//Handles menu drop down#}
+        {#$('.dropdown-menu').find('form#signin').click(function (e) {#}
+            {#e.stopPropagation();#}
+        {#});#}
+    {#});</script>#}
 
 </body>
 

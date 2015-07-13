@@ -1,12 +1,13 @@
-<?php 
+<?php
 
 session_start();
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
+$request = new TroisWA\Shop\Utils\Request($_GET, $_POST, $_SESSION);
 
 $loader = new Twig_Loader_Filesystem(__DIR__."/../view");
-$twig = new Twig_Environment($loader, 
+$twig = new Twig_Environment($loader,
 			[
 				"cache" => false
 			]);
@@ -21,6 +22,11 @@ $function = new Twig_SimpleFunction("image_or_default", function($size, $product
 
 $twig->addFunction($function);
 
+$twig->addGlobal('session', $_SESSION);
+
+$flash = new \TroisWA\Shop\Utils\FlashManager($request);
+$twig->addGlobal('flash', $flash);
+
 $dataSource = "mysql:host=localhost;dbname=shop;charset=utf8";
 $login = "root";
 $mdp = "troiswa";
@@ -31,7 +37,6 @@ $connection = new PDO($dataSource, $login, $mdp);
 //$request = Request::createFromGlobals();
 
 //pour utiliser le request de la classe request
-$request = new TroisWA\Shop\Utils\Request($_GET, $_POST, $_SESSION);
 
 $dataSource = new \TroisWA\Shop\DAO\DataSource($connection);
 
@@ -78,7 +83,7 @@ $config = [
     "signout" => ["controller" => "User", "action" => "signout"]
 ];
 
-function route($page, $config, $request, $view, $dataSource) {
+function route($page, $config, $request, $view, $dataSource, $flash) {
     if (!array_key_exists($page, $config)) {
         header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
         return $view->render("404.twig", ["categories" => $dataSource->getCategories()]);
@@ -86,9 +91,13 @@ function route($page, $config, $request, $view, $dataSource) {
     }
     $controllerClass = "TroisWA\\Shop\\Controller\\".$config[$page]["controller"]."Controller";
     $action = $config[$page]["action"]."Action";
-    $controller = new $controllerClass($request, $view, $dataSource);
+    $controller = new $controllerClass($request, $view, $dataSource, $flash);
 
     return $controller->$action();
- }
 
-echo route($page, $config, $request, $twig, $dataSource);
+}
+
+echo route($page, $config, $request, $twig, $dataSource, $flash);
+
+//unset($_SESSION["flash"]);
+
